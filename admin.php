@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include('htmls/admin/header.html');
+	include('htmls/admin/header.php');
 	
 	//Pagina por default: inicio.html
 	$page = 'admin/inicio';
