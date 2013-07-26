@@ -18,6 +18,9 @@ function login(){
 	$result = json_decode($return, true);
 	
 	if ($result['sesion'] == True){
+		session_start();
+		$_SESSION['usuario'] = $data['usuario'];
+		$_SESSION['contrasena'] = $data['contrasena'];
 		header('Location: /admin.php');
 	}	
 }
