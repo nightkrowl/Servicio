@@ -7,7 +7,7 @@ function login(){
 	$data = array('usuario' => $_POST['usuario'], 'contrasena'=>$_POST['contrasena']);
 
 	//url a web service
-	$url = "http://localhost/ws_login.php";
+	$url = "http://localhost/ws/ws_login.php";
 	//curl_handle
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_POST, true);

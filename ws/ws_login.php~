@@ -1,5 +1,7 @@
 <?php
-require_once 'base_datos/bd_config.php';
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once (__ROOT__.'/base_datos/bd_config.php');
+echo __ROOT__;
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] == "GET") {
 	header("HTTP/1.1 400 Invalid Request");
