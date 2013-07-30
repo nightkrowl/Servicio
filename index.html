@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+  		<meta charset="utf-8">
+  		<title>Login</title>
+  		<link rel="stylesheet" href="css/login.css">
+  		<!-- IE6-8 support of HTML5 elements --> <!--[if lt IE 9]>
+		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> 
+  		<![endif]-->
+	</head>
+
+	<body>
+  		<form id="login" method="post" action="funciones/login_action.php">
+    	<h1>Login</h1>
+    	<fieldset id="campos">
+      		<input id="usuario" type="text" name="usuario" maxlength="30" placeholder="Username" autofocus required/>
+
+      		<input id="contrasena" type="password" name="contrasena" maxlength="30" placeholder="Password" required/>
+    	</fieldset>
+	
+    	<fieldset id="acciones">
+      		<input type="submit" id="entrar" value="Log in">
+      		<a href="#">Forgot your password?</a>
+    	</fieldset>
+  		</form>
+	</body>
+</html>
