@@ -5,7 +5,7 @@
    	<title>Instalaciones-IPN</title>
   	</head>
   	<?php
-	require("require.php");
+	include("requires/require.php");
 	?>
 	<body>
 		<article>
