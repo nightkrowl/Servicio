@@ -1,0 +1,33 @@
+/*Maquetando header*/
+
+/*fuente personalizada*/
+@font-face{
+	font-family:varsity_regular;
+	src: url(fuentes/varsity_regular.ttf) format("truetype");
+}
+
+header img{
+	float:left;
+}
+
+header#img1{
+	float-top:4px;
+}
+
+header{
+	border: 1px black solid;
+}
+
+header canvas{
+	float:left;
+}
+
+header p{
+	font-family: varsity_regular;
+	color:maroon;
+	float:left;
+	float-top:4px;
+}
+
+
+
