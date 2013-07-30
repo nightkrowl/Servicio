@@ -1,0 +1,31 @@
+/*fuente personalizada*/
+@font-face{
+	font-family:varsity_regular;
+	src: url(fuentes/varsity_regular.ttf) format("truetype");
+}	
+
+aside nav{
+	background: gold;
+	height: 30%;
+	text-align: center;
+	border-radius: 10px;
+}
+
+aside nav ul{
+	list-style: none;
+	margin: 0 auto;
+}
+
+aside nav ul li a{
+	text-decoration:none;
+	display: inline-block;
+	color: white;
+	height: 30%;
+}
+
+aside nav a:hover{
+	background: darkgoldenrod;
+	color: white;
+	text-shadow: none !important;
+	border-radius: 5px;
+}
