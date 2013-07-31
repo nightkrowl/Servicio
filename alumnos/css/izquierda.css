@@ -1,0 +1,28 @@
+/*Seccion izquierda*/
+
+img.imagenes{
+	transform:scale(1,1);
+	-webkit-transform:scale(1,1);
+	-moz-transform:scale(1,1);
+	-o-transform:scale(1,1);
+	-ms-transform:scale(1,1);
+	transition: transform 1s;
+	-webkit-transition: transform 1s;
+	-o-transition: transform 1s;
+	-moz-transition: transform 1s;
+	-ms-transition: transform 1s;
+	width: 200px;
+	height: 120px;
+}
+
+img.imagenes:hover{
+	transform:scale(1.5,1.5);
+	-webkit-transform:scale(1.5,1.5);
+	-moz-transform:scale(1.5,1.5);
+	-o-transform:scale(1.5,1.5);
+	-ms-transform:scale(1.5,1.5);
+}
+
+aside#izquierda{
+	
+}
