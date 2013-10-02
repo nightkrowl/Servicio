@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Sistema de registros escolares</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <!--IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+	   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="js/admin.js"></script>
+
+  </head>
+
+  <body>
+    <nav id="nav">
+      <ul id="menu">
+        <li><a title="inicio" href="#">Inicio</a></li>
+        <li><a title="alumnos" href="alumnos">Alumnos</a></li>
+        <li><a title="profesores" href="profesores">Profesores</a></li>
+
+    </nav>
+    <article>
+      <form id="busqueda" action="">
+        <select id="tipo_busqueda">
+          <option value="alumnos">Alumno</option>
+          <option value="profesores">Profesor</option>
+          <option value="grupos">Grupo</option>
+        </select>
+        <input id="cuadro_busqueda" type=search name=busqueda results=5 autosave=some_unique_value placeholder= Buscar... />
+        <input id="btn_buscar" type="submit" value="Buscar" />
+      </form>
+    </article>
+    <article id="contenido" role="main"></article>
+
+    <footer>
+      <p>© 2013</p>
+    </footer>
+  </body>
+</html>

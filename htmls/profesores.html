@@ -1,0 +1,37 @@
+<h1>Profesores</h1>
+<div id="tabla">
+    <!--form action="null" method="post">-->
+      <table id="profes">
+<script>
+$(document).ready(function(){
+  var url = 'http://localhost/sistema_registros/ws/get_all.php';
+  $.post(url,{tabla: 'profesores'}, 
+    function(data, textStatus, jqXHR){
+      //alert(data[0].nombre);
+      //alert(textStatus);
+      var html = '<thead> <tr> <th>Nombre</th> <th>Usuario</th> </tr> </thead> <tbody>';
+      
+      for (var i = 0; i < data.length; i++) {
+        html += "<tr> <td>nombre</td><td>usuario </td><td> <button type=button onclick=borrar('borra')>Borrar</button> </td> <td> <button type=button onclick=borrar('edita')>Editar</button> </td></tr>";
+        html = html.replace('borra',data[i].id);
+        html = html.replace('nombre',  data[i].nombre);
+        html = html.replace('usuario',  data[i].usuario);
+        html = html.replace('edita',  data[i].id);
+      };
+
+      html += '</tbody></table></div>';
+      $('#tabla').append(html);
+    }, 'json').fail(function(jqXHR, textStatus, errorThrown){
+      alert(textStatus);
+    });
+});
+
+function borrar(id){
+  alert(id);
+}
+
+function editar(id){
+  alert(id);
+}
+
+</script>

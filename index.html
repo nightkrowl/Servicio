@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Sistema de registros escolares</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <!--IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+	   <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="js/login"></script>
+  </head>
+
+  <body>
+    <form id="login">
+      <h1>Login</h1>
+      <fieldset id="tipo_usuario">
+        <label>
+          <select name="tipo" id="opciones">
+            <option value="alumnos">Alumno</option>
+            <option value="profesores">Profesor</option>
+          </select>
+        </label>
+      </fielset>
+
+      <fieldset id="campos">
+        <input id="usuario" type="text" name="usuario" maxlength="30" placeholder="Usuario" autofocus required />
+        <input id="contrasena" type="password" name="contrasena" maxlength="30" placeholder="Contraseña" required />
+      </fieldset>
+
+      <fieldset id="botones">
+        <input type="submit" id="btn_login" value="Log in"/>
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </fieldset>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<h1>Alumnos</h1>
+<div></div>
+<script>
+	var url = 'http://localhost/sistema_registros/ws/get_all.php';
+	$.post(url,{tabla: 'carreras'}, 
+		function(data, textStatus, jqXHR){
+			//alert(data[0].nombre);
+			//alert(textStatus);
+			for (var i = 0; i < data.length; i++) {
+				//$("div").html(data[i].id + data[i].nombre + data[i].apellidos);
+				$("div").html(data[i].id + data[i].carrera + data[i].siglas);
+			};
+		}, 'json').fail(function(jqXHR, textStatus, errorThrown){
+			alert(textStatus);
+		});
+	
+</script>
