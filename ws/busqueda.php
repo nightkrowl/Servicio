@@ -21,7 +21,7 @@ function buscar(){
 		$bd -> where('usuario', $_POST['usuario']);
 		$bd -> where('contrasena', $_POST['contrasena']);
 		$resultado = $bd -> selec_todo($tabla);
-
+		//echo json_encode("hola");
 		if ( sizeof($resultado) == 1 ) {
 			$data = array('sesion' => True);
 			echo json_encode($data);
@@ -34,6 +34,7 @@ function buscar(){
 		$bd -> where('usuario', $_POST['buscar']);
 		$resultado = $bd -> selec_todo($tabla);
 		echo json_encode($resultado);
+		//echo json_encode("no");
 	}
 }
 ?>
