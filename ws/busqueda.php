@@ -17,20 +17,25 @@ function buscar(){
 	$tabla = array_shift($_POST);
 
 	if ( sizeof($_POST) > 1) {
-
-		$bd -> where('usuario', $_POST['usuario']);
-		$bd -> where('contrasena', $_POST['contrasena']);
-		$resultado = $bd -> selec_todo($tabla);
-		//echo json_encode("hola");
-		if ( sizeof($resultado) == 1 ) {
-			$data = array('sesion' => True);
-			echo json_encode($data);
-		}else{
-			$data = array('sesion' => False);
-			echo json_encode($data);
+		if ( isset( $_POST['usuario'] ) && isset( $_POST['contrasena'] ) ) {
+			$bd -> where('usuario', $_POST['usuario']);
+			$bd -> where('contrasena', $_POST['contrasena']);
+			$resultado = $bd -> selec_todo($tabla);
+			//echo json_encode("hola");
+			if ( sizeof($resultado) == 1 ) {
+				$data = array('sesion' => True);
+				echo json_encode($data);
+			}else{
+				$data = array('sesion' => False);
+				echo json_encode($data);
+			}
 		}
 
-	}else{
+	}if ( isset( $_POST['id_profe'] ) ) {
+		$bd -> where( 'id', $_POST['id_profe'] );
+		$resultado = $bd -> selec_todo( $tabla );
+		echo json_encode( $resultado );
+	}if ( isset( $_POST['buscar'] ) ) {
 		$bd -> where('usuario', $_POST['buscar']);
 		$resultado = $bd -> selec_todo($tabla);
 		echo json_encode($resultado);

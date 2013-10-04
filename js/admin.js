@@ -2,17 +2,18 @@ $(document).ready(function() {
     //pagina de inicio
     $('#contenido').load('htmls/inicio.html');
 
+    //navegacion
     $('ul#menu li a').click(function(){
-	var pag = $(this).attr('href');
-	$('#contenido').load('htmls/'+ pag + '.html');
-	return false;
+	   var pag = $(this).attr('href');
+	   $('#contenido').load('htmls/'+ pag + '.html');
+	   return false;
     });
 
+    //Busqueda de alumno o profesor. LLamada a webservice
     $('#busqueda').submit(function(){
         var e = document.getElementById('tipo_busqueda');
         var select = e.options[e.selectedIndex].value;
     	var buscar = $('[name=busqueda]').val();
-    	//realizar busqueda
         var url = 'http://localhost/sistema_registros/ws/busqueda.php';
         $.post(url, {tabla: select, buscar: buscar}, 
             function(data){
@@ -27,4 +28,5 @@ $(document).ready(function() {
             }, 'json');
         return false;
     });
+
 });

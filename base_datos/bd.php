@@ -259,6 +259,7 @@ $data = array(1, 'Jonathan Arturo');
 $query = "SELECT * FROM alumnos WHERE id = ? AND nombre = ?";
 $resultado = $bd -> ejecutar_query($query, $data);
 print_r($resultado);*/
+
 //UPDATE
 /*$data_update = array(
 	'contrasena' => '09876'
@@ -267,7 +268,6 @@ $bd -> where('id', 1);
 if ($bd -> actualizar('alumnos', $data_update)) {
 	echo 'Actualizado';
 }*/
-
 
 /*DELETE
 $bd -> where('id', 2);

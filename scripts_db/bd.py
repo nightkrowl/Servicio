@@ -4,7 +4,7 @@ import MySQLdb as mdb
 import sys
 
 maestros = {nombre: 'Amelia', apellido:'Gonzalez Cantu':, usuario:'1234567', contra:'abc' , correo:'amelia@gmail.com', materia:'Fisica 1'}#,nombre: 'Amelia Gonzalez Cantu', apellido:, usuario:, contra: , correo:, materia:,nombre: 'Amelia Gonzalez Cantu', apellido:, usuario:, contra: , correo:, materia:}
-
+CREATE DATABASE registro_escolar CHARACTER SET utf8 COLLATE utf8_general_ci;
 try:
     # host, database user name, user's account password, db name
     con = mdb.connect(host='localhost', user='root', passwd='root', db='registro_escolar')
