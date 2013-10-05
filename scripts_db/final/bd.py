@@ -97,7 +97,7 @@ try:
            cursor.execute(query)
     con.commit()
     
-    cursor.execute("CREATE TABLE IF NOT EXISTS materias_profesores (materia INT NOT NULL, profesor INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id), FOREIGN KEY (profesor) REFERENCES profesores(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
+    cursor.execute("CCREATE TABLE IF NOT EXISTS materias_profesores (materia INT NOT NULL, profesor INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
     cursor.execute("SELECT * FROM profesores")
     data = cursor.fetchall()
     profes = get_array(data,1)
