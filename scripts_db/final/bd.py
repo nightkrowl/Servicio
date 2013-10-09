@@ -6,6 +6,9 @@ import sys
 import random
 import string
 
+''' tabla
+CREATE DATABASE registro_escolar CHARACTER SET utf8 COLLATE utf8_general_ci;'''
+
 carreras = [u"Ingeniero en Tecnología de Software", "ITS" , 
             u"Ingeniero Administrador de Sistemas", "IAS", 
             u"Ingeniero en Electrónica y Comunicaciones", "IEC",
@@ -47,7 +50,7 @@ try:
 
     #execute the SQL statement
     #carreras
-    
+    '''
     cursor.execute('CREATE TABLE IF NOT EXISTS carreras (id INT NOT NULL AUTO_INCREMENT, carrera VARCHAR(80) NOT NULL, siglas CHAR(6) NOT NULL, PRIMARY KEY(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1')
     
     for i in range( 0, len(carreras), 2 ):
@@ -97,7 +100,7 @@ try:
            cursor.execute(query)
     con.commit()
     
-    cursor.execute("CCREATE TABLE IF NOT EXISTS materias_profesores (materia INT NOT NULL, profesor INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
+    cursor.execute("CREATE TABLE IF NOT EXISTS materias_profesores (materia INT NOT NULL, profesor INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
     cursor.execute("SELECT * FROM profesores")
     data = cursor.fetchall()
     profes = get_array(data,1)
@@ -111,7 +114,31 @@ try:
         print query
         cursor.execute(query)
     con.commit()
+       '''                                     
+    cursor.execute("CREATE TABLE IF NOT EXISTS alumnos( id INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(30) NOT NULL, apellidos VARCHAR(30) NOT NULL, usuario VARCHAR(20) NOT NULL, contrasena VARCHAR(20) NOT NULL, email VARCHAR(30), semestre TINYINT,PRIMARY KEY(id), carrera INT, FOREIGN KEY (carrera) REFERENCES carreras(id) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=latin1")
+    cursor.execute("SELECT * FROM carreras")
+    data = cursor.fetchall()
+    carreras = get_array(data, 1)
+    for i in range(1,500):
+        nombre = get_string()
+        apellidos = get_string() + ' ' + get_string()
+        usuario = get_string()
+        contra = get_string()
+        mail = get_email()
+        carrera = random.choice(carreras)
+        semestre = get_semestre()
 
+        query = "SELECT nombre, usuario FROM alumnos WHERE nombre = '%s' AND usuario = '%s' LIMIT 1" % (nombre, usuario)
+        cursor.execute(query)
+        
+        if (cursor.rowcount == 0):
+            query = "INSERT INTO alumnos(nombre, apellidos, usuario, contrasena, email, semestre) VALUES('%s', '%s', '%s', '%s', '%s', '%s')" % (nombre, apellidos, usuario, contra, mail, semestre)
+            print query
+            cursor.execute(query)
+            query = "UPDATE alumnos SET carrera = (SELECT id FROM carreras WHERE carrera ='%s') WHERE nombre = '%s' " %(carrera, nombre)
+            print query
+            cursor.execute(query)
+        con.commit()
 
 except mdb.Error, e:
     print "Error %d: %s" % (e.args[0],e.args[1])
