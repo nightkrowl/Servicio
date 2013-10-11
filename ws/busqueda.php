@@ -21,10 +21,13 @@ function buscar(){
 			$bd -> where('usuario', $_POST['usuario']);
 			$bd -> where('contrasena', $_POST['contrasena']);
 			$resultado = $bd -> selec_todo($tabla);
-			//echo json_encode("hola");
+
 			if ( sizeof($resultado) == 1 ) {
+				session_start();
+				$_SESSION['usuario'] = $_POST['usuario'];
 				$data = array('sesion' => True);
 				echo json_encode($data);
+				
 			}else{
 				$data = array('sesion' => False);
 				echo json_encode($data);
@@ -35,11 +38,11 @@ function buscar(){
 		$bd -> where( 'id', $_POST['id_profe'] );
 		$resultado = $bd -> selec_todo( $tabla );
 		echo json_encode( $resultado );
+
 	}if ( isset( $_POST['buscar'] ) ) {
 		$bd -> where('usuario', $_POST['buscar']);
 		$resultado = $bd -> selec_todo($tabla);
 		echo json_encode($resultado);
-		//echo json_encode("no");
 	}
 }
 ?>

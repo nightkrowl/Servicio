@@ -12,6 +12,8 @@ $(document).ready(function(){
 						window.location.assign('http://localhost/Servicio/admin.html');
 					}else if(usuario == 'profesores'){
 
+					}else if (tipo == 'alumnos') {
+						window.location.assign('http://localhost/Servicio/admin.html');
 					}
 				}else{
 					alert('error');
