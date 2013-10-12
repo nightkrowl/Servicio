@@ -114,7 +114,26 @@ try:
         print query
         cursor.execute(query)
     con.commit()
-       '''                                     
+       '''
+
+    #cursor.close()
+    #cursor = con.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS carreras_materias (materia INT NOT NULL, carrera INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY ( carrera) REFERENCES carreras(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
+    cursor.execute("SELECT * FROM materias")
+    data = cursor.fetchall()
+    materias = get_array(data, 1)
+    cursor.execute("SELECT * FROM carreras")
+    data = cursor.fetchall()
+    carreras = get_array(data, 1)
+    for i in range(1,100):
+        materia = random.choice(materias)
+        carrera = random.choice(carreras)
+        query = "INSERT INTO carreras_materias(materia, carrera) SELECT id, (SELECT id FROM carreras WHERE carrera = '%s') FROM materias WHERE materia = '%s'" %(carrera, materia)
+        #print query
+        cursor.execute(query)
+    con.commit()
+
+    '''
     cursor.execute("CREATE TABLE IF NOT EXISTS alumnos( id INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(30) NOT NULL, apellidos VARCHAR(30) NOT NULL, usuario VARCHAR(20) NOT NULL, contrasena VARCHAR(20) NOT NULL, email VARCHAR(30), semestre TINYINT,PRIMARY KEY(id), carrera INT, FOREIGN KEY (carrera) REFERENCES carreras(id) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=latin1")
     cursor.execute("SELECT * FROM carreras")
     data = cursor.fetchall()
@@ -139,6 +158,7 @@ try:
             print query
             cursor.execute(query)
         con.commit()
+        '''
 
 except mdb.Error, e:
     print "Error %d: %s" % (e.args[0],e.args[1])
