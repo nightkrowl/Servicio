@@ -129,7 +129,7 @@ try:
         materia = random.choice(materias)
         carrera = random.choice(carreras)
         query = "INSERT INTO carreras_materias(materia, carrera) SELECT id, (SELECT id FROM carreras WHERE carrera = '%s') FROM materias WHERE materia = '%s'" %(carrera, materia)
-        #print query
+        print query
         cursor.execute(query)
     con.commit()
 
