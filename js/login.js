@@ -9,7 +9,7 @@ $(document).ready(function(){
 				
 				if(data.sesion){
 					if(usuario == 'admin'){
-						window.location.assign('http://localhost/Servicio/admin.html');
+						window.location.assign('http://localhost/Servicio/admin/admin.html');
 					}else if(usuario == 'profesores'){
 
 					}else if (tipo == 'alumnos') {

@@ -11,7 +11,6 @@ if ( !isset( $_SERVER["REQUEST_METHOD"] ) || $_SERVER["REQUEST_METHOD"] == "GET"
 //funcion();
 
 function funcion(){
-	//echo 'hola';
 	//session_start();
 	$bd = new bd();
 	$tabla = 'alumnos';
@@ -26,6 +25,11 @@ function funcion(){
 	$query = "SELECT materias.materia FROM materias JOIN carreras_materias ON materias.id = carreras_materias.materia WHERE carreras_materias.carrera = ?";
 	$resultado = $bd -> ejecutar_query($query, $data);
 	echo json_encode($resultado);
+
+	/*$bd = new bd();
+	$data = array($carrera);
+	$query = "SELECT profesores.nombre, profesores.apellidos FROM profesores JOIN materias_profesores ON profesores.id = materias_profesores.materia WHERE materias_profesores.materia = ?";
+	$resultado = $bd -> ejecutar_query($query, $data);*/
 }
 
 ?>
