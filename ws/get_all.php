@@ -14,7 +14,9 @@ if ( !isset( $_SERVER["REQUEST_METHOD"] ) || $_SERVER["REQUEST_METHOD"] == "GET"
 function get_all(){
 	$bd = new bd();
 	//SELECT *
-	$res = $bd -> selec_todo($_POST['tabla']);
+	$tablas = unserialize (TABLAS);
+	$tabla = $tablas[$_POST['tabla']];
+	$res = $bd -> selec_todo($tabla);
 
 	if ($res) {
 		//$data = array('alumnos' => $res);

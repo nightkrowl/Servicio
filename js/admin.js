@@ -5,7 +5,7 @@ $(document).ready(function() {
     //navegacion
     $('ul#menu li a').click(function(){
 	   var pag = $(this).attr('href');
-	   $('#contenido').load('htmls/'+ pag + '.html');
+	   $('#contenido').load('htmls/admin/'+ pag + '.html');
 	   return false;
     });
 

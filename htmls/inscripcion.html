@@ -1,0 +1,20 @@
+<h1>Inscripción</h1>
+<div id="tabla"></div>
+	<table id="inscripcion"></table>
+<script>
+	$(document).ready(function(){
+		var url = 'http://localhost/Servicio/ws/inscripcion.php';
+		var html = '<thead> <tr> <th>Materia</th> </tr> </thead> <tbody>';
+		$.post(url, {},
+			function(data, textStatus, jqXHR){
+				for (var i = 0; i < data.length; i++) {
+					html += "<tr> <td>materia</td> </tr>";
+					html = html.replace('materia', data[i].materia);
+				};
+				html += "</tbody></table></div>";
+				$('#tabla').append(html);
+			}, 'json').fail(function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
+			});
+	});
+</script>

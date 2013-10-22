@@ -32,6 +32,11 @@ def get_email():
     dominios = ['gmail.com', 'hotmail.com', 'yahoo.com']
     return u"".join(random.choice(string.ascii_letters) for i in range(8)) + '@' + random.choice(dominios)
 
+def get_horas():
+    siglas = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6' ]
+    horas = ['7,00,00', '7,50,00', '8,40,00', '9,30,00', '10,20,00', '11,10,00', '12,00,00', '12,50,00', '13,40,00', '14,30,00', '15,20,00', '16,10,00', '17,00,00', '17,40,00', '18,20,00', '19,00,00', '19,40,00', '20,20,00', '21,00,00']
+    return siglas, horas
+
 def get_array(arreglo, campo):
     aux = []
     for i in arreglo:
@@ -99,6 +104,11 @@ try:
            print query
            cursor.execute(query)
     con.commit()
+
+    cursor.close()
+    cursor = con.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS horas (id INT NOT NULL AUTO_INCREMENT, siglas CHAR(5) NOT NULL, horario VARCHAR(13) NOT NULL, PRIMARY KEY(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
+
     
     cursor.execute("CREATE TABLE IF NOT EXISTS materias_profesores (materia INT NOT NULL, profesor INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
     cursor.execute("SELECT * FROM profesores")
@@ -114,7 +124,7 @@ try:
         print query
         cursor.execute(query)
     con.commit()
-       '''
+    
 
     #cursor.close()
     #cursor = con.cursor()
@@ -133,7 +143,7 @@ try:
         cursor.execute(query)
     con.commit()
 
-    '''
+    
     cursor.execute("CREATE TABLE IF NOT EXISTS alumnos( id INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(30) NOT NULL, apellidos VARCHAR(30) NOT NULL, usuario VARCHAR(20) NOT NULL, contrasena VARCHAR(20) NOT NULL, email VARCHAR(30), semestre TINYINT,PRIMARY KEY(id), carrera INT, FOREIGN KEY (carrera) REFERENCES carreras(id) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=latin1")
     cursor.execute("SELECT * FROM carreras")
     data = cursor.fetchall()
@@ -158,7 +168,37 @@ try:
             print query
             cursor.execute(query)
         con.commit()
-        '''
+        
+    cursor.execute("CREATE TABLE IF NOT EXISTS horas (id INT NOT NULL AUTO_INCREMENT, siglas CHAR(3) NOT NULL, inicio TIME NOT NULL, fin TIME NOT NULL,  PRIMARY KEY(id) )ENGINE=InnoDB DEFAULT CHARSET=latin1")
+    siglas, horas = get_horas()
+
+    for i in range( len(siglas) ):
+        query = "INSERT INTO horas(siglas, inicio, fin) VALUES ('%s', MAKETIME(%s), MAKETIME(%s) ) " % (siglas[i], horas[i], horas[i+1])
+        cursor.execute(query)
+    con.commit()
+    
+
+    cursor.execute('CREATE TABLE IF NOT EXISTS salones (id INT NOT NULL AUTO_INCREMENT, salon CHAR(6) NOT NULL, PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=latin1')
+
+    i = 1101;
+    n = 0
+    while True:
+        for y in range(i,i+9):
+            query = "INSERT INTO salones(salon) VALUES('%s')" % (y)
+            cursor.execute(query)
+            print y
+        con.commit()
+        i += 100
+        n += 1
+        if (n == 4):
+            i +=600
+            n += 1
+        
+        if (i==6101):
+            break
+    '''
+    cursor.execute('CREATE TABLE IF NOT EXISTS inscripciones(id INT NOT NULL AUTO_INCREMENT, carrera INT NOT NULL, materia INT NOT NULL, profesor INT NOT NULL, hora INT NOT NULL, salon INT NOT NULL, PRIMARY KEY (id), FOREIGN KEY (carrera) REFERENCES carreras(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (hora) REFERENCES horas(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (salon) REFERENCES salones(id) ON DELETE CASCADE ON UPDATE CASCADE)')
+
 
 except mdb.Error, e:
     print "Error %d: %s" % (e.args[0],e.args[1])

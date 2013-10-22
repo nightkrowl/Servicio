@@ -14,7 +14,9 @@ function buscar(){
 	/*foreach ($_POST as $dato) {
 		$params[] = $dato;
 	}*/
-	$tabla = array_shift($_POST);
+	$tablas = unserialize (TABLAS);
+	$n = array_shift($_POST);
+	$tabla = $tablas[$n];
 
 	if ( sizeof($_POST) > 1) {
 		if ( isset( $_POST['usuario'] ) && isset( $_POST['contrasena'] ) ) {

@@ -43,7 +43,7 @@ $(document).ready(function(){
     return false;
   });
 
-  actualizarTabla();
+  //actualizarTabla();
 
 });
 
