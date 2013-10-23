@@ -4,12 +4,28 @@ $(document).ready(function(){
 	$('#select').change(function () {
 
   		get_materias( $(this).val() );
+
 	});
 
 	$('#sel_materias').change(function () {
   		get_profes( $(this).val() );
   		get_horas();
   		get_salones();
+	});
+
+	$('#alta_inscripcion').submit( function(){
+		var url = "http://localhost/Servicio/ws/inscripcion.php";
+		var carrera = $('#select').val();
+		var materia = $('#sel_materias').val();
+		var profe = $('#sel_profe').val();
+		var hora = $('#sel_hora').val();
+		var salon = $('#sel_salones').val();
+		$.post(url, {accion: 1, carrera: carrera, materia: materia, profe: profe, hora: hora, salon: salon}, 
+			function(data){
+				alert(data);
+			}, 'json');
+		
+		return false;
 	});
 
 });
@@ -39,7 +55,7 @@ function get_materias( carrera ){
 	$.post( url, {accion: 2, carrera: carrera},
 		function(data, textStatus, jqXHR){
 			
-			var html ;
+			var html = "<option>Escoge</option>";
 
 			for (var i = 0; i < data.length; i++) {
 				html += "<option>materia</option>";
@@ -59,7 +75,7 @@ function get_profes(materia){
 	
 	$.post(url, { accion: 3, materia: materia }, 
 		function( data, textStatus, jqXHR ){
-			var html;
+			var html = "<option>Escoge</option>";
 
 			for (var i = 0; i < data.length; i++) {
 				html += "<option>profe</option>";
@@ -77,7 +93,7 @@ function get_horas(){
 
 	$.post(url, {tabla: 4}, 
 		function( data, textStatus, jqXHR ){
-			var html;
+			var html = "<option>Escoge</option>";
 
 			for (var i = 0; i < data.length; i++) {
 				html += "<option>hora</option>";
@@ -95,7 +111,7 @@ function get_salones() {
 
 	$.post( url, {tabla: 5},
 		function( data, textStatus, jqXHR ){
-			var html;
+			var html= "<option>Escoge</option>";
 
 			for ( var i = 0; i < data.length; i++ ) {
 				html += "<option>salon</option>";

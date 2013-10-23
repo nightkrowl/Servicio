@@ -3,6 +3,7 @@ $(document).ready(function(){
   function actualizarTabla(){
     var url = 'http://localhost/Servicio/ws/get_all.php';
     var tabla = $('table').attr('id');
+    
     $.post(url,{tabla: tabla}, 
       function(data, textStatus, jqXHR){
         var html = '<thead> <tr> <th>Nombre</th> <th>Usuario</th> </tr> </thead> <tbody>';
@@ -43,7 +44,7 @@ $(document).ready(function(){
     return false;
   });
 
-  //actualizarTabla();
+  actualizarTabla();
 
 });
 
