@@ -1,4 +1,5 @@
 <?php
+//$inicio = microtime(true);
 define('__ROOT__', dirname(dirname(__FILE__)));
 require_once(__ROOT__.'/base_datos/bd.php');
 
@@ -9,6 +10,7 @@ if ( !isset( $_SERVER["REQUEST_METHOD"] ) || $_SERVER["REQUEST_METHOD"] == "GET"
 	buscar();
 }
 
+//buscar($inicio);
 function buscar(){
 	$bd = new bd();
 	/*foreach ($_POST as $dato) {
@@ -25,9 +27,20 @@ function buscar(){
 			$resultado = $bd -> selec_todo($tabla);
 
 			if ( sizeof($resultado) == 1 ) {
+				//asigno un nombre a la sesión para poder guardar diferentes datos
+				//session_name($_POST['usuario']);
+				//inicio de sesion
 				session_start();
+				//defino la sesión que demuestra que el usuario está autorizado
+				$_SESSION["autentificado"]= "SI";
+				//defino la fecha y hora de inicio de sesión en formato aaaa-mm-dd hh:mm:ss
+    			$_SESSION["ultimoAcceso"]= date("Y-n-j H:i:s");
 				$_SESSION['usuario'] = $_POST['usuario'];
 				$data = array('sesion' => True);
+				//$final = microtime(true);
+				//$total= $final - $inicio;
+
+   				//echo 'Tiempo: '.$total.' segundos';
 				echo json_encode($data);
 				
 			}else{

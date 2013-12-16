@@ -1,6 +1,5 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-
 import MySQLdb as mdb
 import sys
 import random
@@ -46,16 +45,7 @@ def get_array(arreglo, campo):
     return aux
 
 
-try:
-    # host, database user name, user's account password, db name
-    con = mdb.connect(host='localhost', user='root', passwd='root', db='registro_escolar')
-
-    #you must create a Cursor object. It will let you execute all the query youneed
-    cursor = con.cursor()
-
-    #execute the SQL statement
-    #carreras
-    '''
+def tabla_carreras():
     cursor.execute('CREATE TABLE IF NOT EXISTS carreras (id INT NOT NULL AUTO_INCREMENT, carrera VARCHAR(80) NOT NULL, siglas CHAR(6) NOT NULL, PRIMARY KEY(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1')
     
     for i in range( 0, len(carreras), 2 ):
@@ -66,13 +56,11 @@ try:
             print query
             cursor.execute(query)
     con.commit()
-    cursor.close()
 
-    cursor = con.cursor()
-    #materias
+def tabla_materias():
     cursor.execute('CREATE TABLE IF NOT EXISTS materias (id INT NOT NULL AUTO_INCREMENT, materia VARCHAR(80), semestre TINYINT, credito TINYINT, carrera INT NOT NULL, PRIMARY KEY(id), FOREIGN KEY (carrera) REFERENCES carreras(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1')
-
-    for i in range(0, 100):
+    
+    for i in range(1, 3):
         materia = get_string()
         semestre = get_semestre()
         creditos = get_credito()
@@ -86,12 +74,9 @@ try:
             cursor.execute(query)
     con.commit()
 
-    cursor.close()
-    cursor = con.cursor()
-
-    
+def tabla_profesores():
     cursor.execute("CREATE TABLE IF NOT EXISTS profesores (id INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(30) NOT NULL, apellidos VARCHAR(30) NOT NULL, usuario VARCHAR(20) NOT NULL, contrasena VARCHAR(20) NOT NULL, email VARCHAR(30), PRIMARY KEY(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
-    for i in range(1,100):
+    for i in range(1,3):
        nombre = get_string()
        apellidos = get_string() + ' ' + get_string()
        usuario = get_string()
@@ -100,55 +85,17 @@ try:
        query = "SELECT nombre, usuario FROM profesores WHERE nombre = '%s' AND usuario = '%s' LIMIT 1" % (nombre, usuario)
        cursor.execute(query)
        if (cursor.rowcount == 0):
-           query = "INSERT INTO profesores(nombre, apellidos, usuario, contrasena, email) VALUES('%s', '%s', '%s', '%s', '%s')" % (nombre, apellidos, usuario, contra, mail)   
+           query = "INSERT INTO profesores(nombre, apellidos, usuario, contrasena, email) VALUES('%s', '%s', '%s', '%s', '%s')" % (nombre, apellidos, usuario, contra, mail)
            print query
            cursor.execute(query)
     con.commit()
 
-    cursor.close()
-    cursor = con.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS horas (id INT NOT NULL AUTO_INCREMENT, siglas CHAR(5) NOT NULL, horario VARCHAR(13) NOT NULL, PRIMARY KEY(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
-
-    
-    cursor.execute("CREATE TABLE IF NOT EXISTS materias_profesores (materia INT NOT NULL, profesor INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
-    cursor.execute("SELECT * FROM profesores")
-    data = cursor.fetchall()
-    profes = get_array(data,1)
-    cursor.execute("SELECT * FROM materias")
-    data = cursor.fetchall()
-    materias = get_array(data, 1)
-    for i in range(1,100):
-        profe = random.choice(profes)
-        materia = random.choice(materias)
-        query = "INSERT INTO materias_profesores(materia, profesor) SELECT id, (SELECT id FROM profesores WHERE nombre = '%s') FROM materias WHERE materia = '%s'" %(profe, materia)
-        print query
-        cursor.execute(query)
-    con.commit()
-    
-
-    #cursor.close()
-    #cursor = con.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS carreras_materias (materia INT NOT NULL, carrera INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY ( carrera) REFERENCES carreras(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
-    cursor.execute("SELECT * FROM materias")
-    data = cursor.fetchall()
-    materias = get_array(data, 1)
-    cursor.execute("SELECT * FROM carreras")
-    data = cursor.fetchall()
-    carreras = get_array(data, 1)
-    for i in range(1,100):
-        materia = random.choice(materias)
-        carrera = random.choice(carreras)
-        query = "INSERT INTO carreras_materias(materia, carrera) SELECT id, (SELECT id FROM carreras WHERE carrera = '%s') FROM materias WHERE materia = '%s'" %(carrera, materia)
-        print query
-        cursor.execute(query)
-    con.commit()
-
-    
+def tabla_alumnos():
     cursor.execute("CREATE TABLE IF NOT EXISTS alumnos( id INT NOT NULL AUTO_INCREMENT, nombre VARCHAR(30) NOT NULL, apellidos VARCHAR(30) NOT NULL, usuario VARCHAR(20) NOT NULL, contrasena VARCHAR(20) NOT NULL, email VARCHAR(30), semestre TINYINT,PRIMARY KEY(id), carrera INT, FOREIGN KEY (carrera) REFERENCES carreras(id) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=latin1")
     cursor.execute("SELECT * FROM carreras")
     data = cursor.fetchall()
     carreras = get_array(data, 1)
-    for i in range(1,500):
+    for i in range(1,3):
         nombre = get_string()
         apellidos = get_string() + ' ' + get_string()
         usuario = get_string()
@@ -168,7 +115,8 @@ try:
             print query
             cursor.execute(query)
         con.commit()
-        
+
+def tabla_horas():
     cursor.execute("CREATE TABLE IF NOT EXISTS horas (id INT NOT NULL AUTO_INCREMENT, siglas CHAR(3) NOT NULL, inicio TIME NOT NULL, fin TIME NOT NULL,  PRIMARY KEY(id) )ENGINE=InnoDB DEFAULT CHARSET=latin1")
     siglas, horas = get_horas()
 
@@ -176,8 +124,8 @@ try:
         query = "INSERT INTO horas(siglas, inicio, fin) VALUES ('%s', MAKETIME(%s), MAKETIME(%s) ) " % (siglas[i], horas[i], horas[i+1])
         cursor.execute(query)
     con.commit()
-    
 
+def tabla_salones():
     cursor.execute('CREATE TABLE IF NOT EXISTS salones (id INT NOT NULL AUTO_INCREMENT, salon CHAR(6) NOT NULL, PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=latin1')
 
     i = 1101;
@@ -190,14 +138,64 @@ try:
         con.commit()
         i += 100
         n += 1
-        if (n == 4):
-            i +=600
-            n += 1
+        #if (n == 4):
+            #i +=600
+            #n += 1
         
-        if (i==6101):
+        if (i==1201):
+            con.commit()
             break
-    '''
-    cursor.execute('CREATE TABLE IF NOT EXISTS inscripciones(id INT NOT NULL AUTO_INCREMENT, carrera INT NOT NULL, materia INT NOT NULL, profesor INT NOT NULL, hora INT NOT NULL, salon INT NOT NULL, PRIMARY KEY (id), FOREIGN KEY (carrera) REFERENCES carreras(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (hora) REFERENCES horas(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (salon) REFERENCES salones(id) ON DELETE CASCADE ON UPDATE CASCADE)')
+
+def tabla_materias_profesores():
+    cursor.execute("CREATE TABLE IF NOT EXISTS materias_profesores (materia INT NOT NULL, profesor INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
+    cursor.execute("SELECT * FROM profesores")
+    data = cursor.fetchall()
+    profes = get_array(data,1)
+    cursor.execute("SELECT * FROM materias")
+    data = cursor.fetchall()
+    materias = get_array(data, 1)
+    for i in range(1,3):
+        profe = random.choice(profes)
+        materia = random.choice(materias)
+        query = "INSERT INTO materias_profesores(materia, profesor) SELECT id, (SELECT id FROM profesores WHERE nombre = '%s') FROM materias WHERE materia = '%s'" %(profe, materia)
+        print query
+        cursor.execute(query)
+    con.commit()
+
+def tabla_carreras_materias():
+    cursor.execute("CREATE TABLE IF NOT EXISTS carreras_materias (materia INT NOT NULL, carrera INT NOT NULL, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY ( carrera) REFERENCES carreras(id) ) ENGINE=InnoDB DEFAULT CHARSET=latin1")
+    cursor.execute("SELECT * FROM materias")
+    data = cursor.fetchall()
+    materias = get_array(data, 1)
+    cursor.execute("SELECT * FROM carreras")
+    data = cursor.fetchall()
+    carreras = get_array(data, 1)
+    for i in range(1,3):
+        materia = random.choice(materias)
+        carrera = random.choice(carreras)
+        query = "INSERT INTO carreras_materias(materia, carrera) SELECT id, (SELECT id FROM carreras WHERE carrera = '%s') FROM materias WHERE materia = '%s'" %(carrera, materia)
+        print query
+        cursor.execute(query)
+    con.commit()
+
+try:
+    # host, database user name, user's account password, db name
+    con = mdb.connect(host='localhost', user='root', passwd='root', db='registro_escolar')
+
+    #you must create a Cursor object. It will let you execute all the query youneed
+    cursor = con.cursor()
+
+    #execute the SQL statement
+    #tabla_carreras()
+    #tabla_materias()
+    #tabla_profesores()
+    #tabla_alumnos()
+    #tabla_horas()
+    #tabla_salones()
+    #tabla_materias_profesores()
+    #tabla_carreras_materias()
+
+    #cursor.execute('CREATE TABLE IF NOT EXISTS inscripciones(id INT NOT NULL AUTO_INCREMENT, carrera INT NOT NULL, materia INT NOT NULL, profesor INT NOT NULL, hora INT NOT NULL, salon INT NOT NULL, PRIMARY KEY (id), FOREIGN KEY (carrera) REFERENCES carreras(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (materia) REFERENCES materias(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (profesor) REFERENCES profesores(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (hora) REFERENCES horas(id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (salon) REFERENCES salones(id) ON DELETE CASCADE ON UPDATE CASCADE)')
 
 
 except mdb.Error, e:

@@ -10,9 +10,9 @@ $(document).ready(function(){
 				if(data.sesion){
 					if(usuario == 'admin'){
 						window.location.assign('http://localhost/Servicio/admin.html');
-					}else if(usuario == 'profesores'){
+					}else if(tipo == ''){
 
-					}else if (tipo == 'alumnos') {
+					}else if (tipo == 0) {
 						window.location.assign('http://localhost/Servicio/admin.html');
 					}
 				}else{

@@ -6,6 +6,7 @@ $(document).ready(function(){
     
     $.post(url,{tabla: tabla}, 
       function(data, textStatus, jqXHR){
+        if (data) {
         var html = '<thead> <tr> <th>Nombre</th> <th>Usuario</th> </tr> </thead> <tbody>';
       
         for (var i = 0; i < data.length; i++) {
@@ -18,6 +19,9 @@ $(document).ready(function(){
 
         html += '</tbody></table></div>';
         $('#tabla').append(html);
+      }else{
+        alert('Tu sesion ha terminado');
+      }
       }, 'json').fail(function(jqXHR, textStatus, errorThrown){
         alert(textStatus);
       });
@@ -36,7 +40,12 @@ $(document).ready(function(){
     $.post(url, {tabla: tabla, nombre:nombre, apellidos:apellidos,usuario: usuario, contrasena: contra, email:email, id: id_profe},
       function(data){
         if(data){
-          $('#contenido').load('htmls/profesores.html');
+          if (tabla == 0) {
+            $('#contenido').load('htmls/admin/alumnos.html');
+          }
+          if (tabla == 3) {
+            $('#contenido').load('htmls/admin/profesores.html');
+          };
         }else{
           alert('error');
         }
@@ -54,15 +63,20 @@ function borrar(x){
   var url = 'http://localhost/Servicio/ws/update.php';
   var id_profe = x;
   var tabla = $('table').attr('id');
+
   $.post( url, { tabla: tabla, id: id_profe }, 
   function( data, textStatus, jqXHR ){
     if ( data ) {
-      alert(data);
-      $('#contenido').load('htmls/profesores.html');
+      if (tabla == 0) {
+        $('#contenido').load('htmls/admin/alumnos.html');
+      }
+      if (tabla == 3) {
+        $('#contenido').load('htmls/admin/profesores.html');
+      };
     }
         
   }, 'json').fail( function( jqXHR, textStatus, errorThrown ) {
-    alert('error');
+    alert('...');
   });
 }
 

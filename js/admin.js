@@ -5,6 +5,7 @@ $(document).ready(function() {
     //navegacion
     $('ul#menu li a').click(function(){
 	   var pag = $(this).attr('href');
+       //alert(pag);
 	   $('#contenido').load('htmls/admin/'+ pag + '.html');
 	   return false;
     });
@@ -29,4 +30,23 @@ $(document).ready(function() {
         return false;
     });
 
+    /*$("#alta").submit( function() {
+        var url = server + "/Servicio/ws/update.php";
+        var nombre = $('[name=nombre]').val();
+        var apellidos = $('[name=apellidos]').val();
+        var usuario = $('[name=usuario]').val();
+        var contra = $('[name=contrasena]').val();
+        var carrera = $('[name=carrera]').val();
+        var email = $('[name=email]').val();
+        var semestre = $('[name=semestre]').val();
+        alert(url);
+        $.post(url, {accion: alta, nombre:nombre, apellidos:apellidos, usuario:usuario,contrasena:contra, email:email,semestre:semestre, carrera:carrera},
+            function( data ) {
+                alert('data');
+            }, 'json');
+        return false;
+    });*/
+
 });
+
+var server = "http://localhost";
